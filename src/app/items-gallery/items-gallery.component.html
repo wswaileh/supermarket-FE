@@ -1,0 +1,105 @@
+<!-- MODAL -->
+<div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">اضافة صنف</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="frame.hide(); resetItem()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <form autocomplete="off" (keyup.enter)="addItem()">
+                    <div class="md-form mb-4">
+                        <input type="text" id="name" name="name" class="form-control" [(ngModel)]="newItem.name"
+                            mdbInput>
+                        <label for="name">اسم الصنف</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <input type="text" id="barcode" name="barcode" class="form-control"
+                            [(ngModel)]="newItem.barcode" mdbInput>
+                        <label for="barcode">رقم الصنف</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <input type="number" id="costPrice" name="costPrice" class="form-control"
+                            [(ngModel)]="newItem.costPrice" mdbInput>
+                        <label for="costPrice">سعر التكلفة</label>
+                    </div>
+
+                    <div class="md-form mb-4">
+                        <input type="number" id="sellingPrice" name="sellingPrice" class="form-control"
+                            [(ngModel)]="newItem.sellingPrice" mdbInput>
+                        <label for="sellingPrice" style="direction: rtl;">سعر البيع</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" mdbWavesEffect (click)="addItem()">اضف الصنف</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END OF MODAL -->
+
+<!-- Editable table -->
+<div class="card">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="md-form md-outline form-lg">
+                <input type="text" [(ngModel)]="searchText" class="form-control form-control-lg" id="search" mdbInput />
+                <label for="search">ابحث</label>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div item.id="table" class="table-editable">
+            <span class="table-add float-right mb-3 mr-2" *ngIf="isAdmin">
+                <a class="text-success" style="font-size: 24px;" (click)="frame.show()">
+                    اضافة صنف
+                    <mdb-icon fas icon="plus" size="2x"></mdb-icon>
+                </a>
+            </span>
+            <div *ngIf="noResults" style="justify-content: right;" class="alert alert-danger" role="alert">
+                <p>No Results!</p>
+            </div>
+            <table mdbTable class="table table-bordered table-responsive-md table-striped text-center">
+                <tr>
+                    <th class="text-center" *ngIf="isAdmin">حذف</th>
+                    <th [mdbTableSort]="items" sortBy="sellingPrice" class="text-center">سعر البيع</th>
+                    <th [mdbTableSort]="items" sortBy="costPrice" class="text-center" *ngIf="isAdmin">سعر التكلفة</th>
+                    <th [mdbTableSort]="items" sortBy="barcode" class="text-center">رقم المنتج</th>
+                    <th [mdbTableSort]="items" sortBy="name" class="text-center">اسم المنتج</th>
+                </tr>
+                <tr *ngFor="let item of items">
+                    <td *ngIf="isAdmin">
+                        <span class="table-remove">
+                            <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                                (click)="remove(item.id)">حذف</button>
+                        </span>
+                    </td>
+                    <td>
+                        <span contenteditable="true"
+                            (blur)="updateList(item.id, 'sellingPrice', $event)">{{item.sellingPrice}} ₪</span>
+                    </td>
+                    <td *ngIf="isAdmin">
+                        <span contenteditable="true"
+                            (blur)="updateList(item.id, 'costPrice', $event)">{{item.costPrice}} ₪</span>
+                    </td>
+                    <td>
+                        <span contenteditable="true"
+                            (blur)="updateList(item.id, 'barcode', $event)">{{item.barcode}}</span>
+                    </td>
+                    <td>
+                        <span contenteditable="true" (blur)="updateList(item.id, 'name', $event)">{{item.name}}</span>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- END OF Editable table -->

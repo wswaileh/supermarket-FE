@@ -1,0 +1,26 @@
+<div class="row h-50">
+    <div class="col-sm-12 h-100 d-table">
+        <div class="card card-body d-table-cell align-middle" style="text-align: center;">
+            <form autocomplete="off" (keyup.enter)="login()">
+                <h4 class="modal-title w-100 font-weight-bold">دخول</h4>
+
+                <div class="md-form mb-5">
+                    <input type="email" id="username" name="username" [(ngModel)]="user.username" class="form-control"
+                        mdbInput>
+                    <label for="defaultForm-email">اسم المستخدم</label>
+                </div>
+
+                <div class="md-form mb-4">
+                    <input type="password" id="pass" name="pass" [(ngModel)]="user.password" class="form-control"
+                        mdbInput>
+                    <label for="defaultForm-pass">كلمة السر</label>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" mdbWavesEffect (click)="login()">دخول</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
